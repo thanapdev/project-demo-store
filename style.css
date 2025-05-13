@@ -99,3 +99,33 @@
         align-items: center;
         justify-content: center;
       }
+
+       
+  /* Category Filter */
+  .categories {
+    background: white;
+    padding: 0.75rem 0;
+    overflow-x: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .category-buttons {
+    display: flex;
+    gap: 0.75rem;
+    padding-left: 1rem;
+  }
+  
+  .category-button {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: #f3f4f6;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .category-button.active,
+  .category-button:hover {
+    background: #10b981;
+    color: white;
+  }
