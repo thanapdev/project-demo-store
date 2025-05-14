@@ -35,6 +35,37 @@
     </div>
   </div>
 
+  <!-- Main Content -->
+  <main class="container">
+    <div class="products-grid" id="productsGrid">
+      <!-- Products will be populated via JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 FreshFruit Market. All rights reserved.</p>
+  </footer>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay">
+    <div class="cart-header">
+      <div class="cart-title">Shopping Cart</div>
+      <div class="close-cart" id="closeCart">×</div>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <div class="cart-empty" id="cartEmpty">Your cart is empty</div>
+      <ul id="cartItemsList"></ul>
+    </div>
+    <div class="cart-footer">
+      <div class="total">
+        <span>Total:</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" disabled>Checkout</button>
+    </div>
+  </div>
+  
     <script src="script.js" defer></script>
 </body>
 </html>

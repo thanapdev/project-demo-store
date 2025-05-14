@@ -16,3 +16,232 @@ const fruits = [
   function saveCartToLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
   }
+
+  // Only run product logic if we are NOT on checkout page
+  if (!document.body.id || document.body.id !== 'checkout-page') {
+  
+    // DOM Elements (Main Page)
+    const productsGrid = document.getElementById("productsGrid");
+    const categoryButtonsContainer = document.getElementById("categoryButtons");
+    const searchInput = document.getElementById("searchInput");
+    const notification = document.getElementById("notification");
+    const cartOverlay = document.getElementById("cartOverlay");
+    const cartIcon = document.getElementById("cartIcon");
+    const closeCart = document.getElementById("closeCart");
+    const cartItemsList = document.getElementById("cartItemsList");
+    const cartEmpty = document.getElementById("cartEmpty");
+    const cartTotal = document.getElementById("cartTotal");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const cartCount = document.getElementById("cartCount");
+  
+    let activeCategory = "All";
+  
+    // Initialize categories
+    function initCategories() {
+      const categories = ["All", ...new Set(fruits.map(f => f.category))];
+      categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.className = "category-button";
+        if (cat === "All") btn.classList.add("active");
+        btn.textContent = cat;
+        btn.addEventListener("click", () => {
+          activeCategory = cat;
+          document.querySelectorAll(".category-button").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderProducts();
+        });
+        categoryButtonsContainer.appendChild(btn);
+      });
+    }
+  
+    // Render Products
+    function renderProducts() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = fruits.filter(f =>
+        (activeCategory === "All" || f.category === activeCategory) &&
+        f.name.toLowerCase().includes(query)
+      );
+  
+      productsGrid.innerHTML = "";
+      if (filtered.length === 0) {
+        productsGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #9ca3af;">
+            No fruits found.
+          </div>`;
+        return;
+      }
+  
+      filtered.forEach(fruit => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <div class="product-image">
+            <img src="${fruit.image}" alt="${fruit.name}">
+          </div>
+          <div class="product-info">
+            <div class="product-name">${fruit.name}</div>
+            <div class="product-category">${fruit.category}</div>
+            <div class="product-price">$${fruit.price.toFixed(2)}</div>
+            <button class="add-to-cart-btn">Add to Cart</button>
+          </div>
+        `;
+        card.querySelector(".add-to-cart-btn").addEventListener("click", () => addToCart(fruit));
+        productsGrid.appendChild(card);
+      });
+    }
+  
+    // Add to Cart
+    function addToCart(fruit) {
+      const item = cart.find(i => i.id === fruit.id);
+      if (item) {
+        item.quantity++;
+      } else {
+        cart.push({ ...fruit, quantity: 1 });
+      }
+      showNotification(`${fruit.name} added to cart`);
+      updateCartUI();
+      saveCartToLocalStorage();
+    }
+  
+    // Show Notification
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.classList.add("show");
+      setTimeout(() => notification.classList.remove("show"), 2000);
+    }
+  
+    // Update Cart UI
+    function updateCartUI() {
+      cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartTotal.textContent = "$" + cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+      checkoutBtn.disabled = cart.length === 0;
+  
+      cartItemsList.innerHTML = "";
+      cartEmpty.style.display = cart.length === 0 ? "block" : "none";
+  
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.className = "cart-item";
+        li.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+          </div>
+          <div class="quantity-controls">
+            <button class="quantity-btn minus">−</button>
+            <span class="quantity">${item.quantity}</span>
+            <button class="quantity-btn plus">+</button>
+            <span class="remove-btn">×</span>
+          </div>
+        `;
+        li.querySelector(".minus").addEventListener("click", () => {
+          if (item.quantity > 1) item.quantity--;
+          else removeCartItem(item.id);
+          updateCartUI();
+          saveCartToLocalStorage();
+        });
+        li.querySelector(".plus").addEventListener("click", () => {
+          item.quantity++;
+          updateCartUI();
+          saveCartToLocalStorage();
+        });
+        li.querySelector(".remove-btn").addEventListener("click", () => {
+          removeCartItem(item.id);
+          updateCartUI();
+          saveCartToLocalStorage();
+        });
+        cartItemsList.appendChild(li);
+      });
+    }
+  
+    // Remove from Cart
+    function removeCartItem(id) {
+      cart = cart.filter(i => i.id !== id);
+    }
+  
+    // Open/Close Cart
+    cartIcon.addEventListener("click", () => cartOverlay.classList.add("open"));
+    closeCart.addEventListener("click", () => cartOverlay.classList.remove("open"));
+  
+    // Search
+    searchInput.addEventListener("input", renderProducts);
+  
+    // Checkout Button
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener("click", () => {
+        if (cart.length === 0) return;
+        window.location.href = "checkout.html";
+      });
+    }
+  
+    // Initial Setup
+    initCategories();
+    renderProducts();
+    updateCartUI();
+  
+  } else {
+  
+    // === Checkout Page Logic ===
+  
+    // Wait for DOM to load
+    document.addEventListener("DOMContentLoaded", function () {
+  
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+      function renderOrderSummary() {
+        const summaryItems = document.getElementById("summaryItems");
+        const summaryTotal = document.getElementById("summaryTotal");
+  
+        let total = 0;
+  
+        if (cart.length === 0) {
+          summaryItems.innerHTML = "<p>Your cart is empty.</p>";
+          summaryTotal.textContent = "Total: $0.00";
+          return;
+        }
+  
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+  
+          const div = document.createElement("div");
+          div.className = "order-item";
+          div.innerHTML = `
+            <span>${item.name} x ${item.quantity}</span>
+            <span>$${itemTotal.toFixed(2)}</span>
+          `;
+          summaryItems.appendChild(div);
+        });
+  
+        summaryTotal.textContent = "Total: $" + total.toFixed(2);
+      }
+  
+      // Handle form submission
+      document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+  
+        const name = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const zip = document.getElementById("zip").value.trim();
+        const country = document.getElementById("country").value;
+        const paymentMethod = document.getElementById("paymentMethod").value;
+  
+        if (!name || !email || !address || !city || !zip || !country || !paymentMethod) {
+          alert("Please fill out all fields.");
+          return;
+        }
+  
+        alert("Thank you, " + name + "! Your order has been placed successfully.\n\n" +
+              "Total: $" + cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
+  
+        localStorage.removeItem("cart"); // Clear cart after order
+        window.location.href = "index.html"; // Redirect to home
+      });
+  
+      // Initialize
+      renderOrderSummary();
+    });
+  }
