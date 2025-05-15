@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - FreshFruit Market</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body id="checkout-page">
+
+  <!-- Header -->
+  <header>
+    <div class="container header-content">
+      <div class="logo">FreshFruit Market</div>
+    </div>
+  </header>
+
+  <!-- Checkout Section -->
+  <main class="container">
+    <div class="checkout-container">
+      <h2>Checkout</h2>
+      <div class="checkout-grid">
+        <!-- Billing Form -->
+        <form id="checkoutForm">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" required />
+          </div>
+          <div class="form-group">
+            <label for="zip">ZIP Code</label>
+            <input type="text" id="zip" required />
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" required>
+              <option value="">Select Country</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="UK">United Kingdom</option>
+              <option value="AU">Australia</option>
+              <option value="IN">India</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <select id="paymentMethod" required>
+              <option value="">Select Payment Method</option>
+              <option value="credit-card">Credit Card</option>
+              <option value="paypal">PayPal</option>
+              <option value="cash-on-delivery">Cash on Delivery</option>
+            </select>
+          </div>
+          <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+
+        <!-- Order Summary -->
+        <div class="order-summary" id="orderSummary">
+          <h3>Your Order</h3>
+          <div id="summaryItems"></div>
+          <div class="order-total" id="summaryTotal">Total: $0.00</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 FreshFruit Market. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
