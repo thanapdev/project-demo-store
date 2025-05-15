@@ -443,3 +443,28 @@
       grid-template-columns: 1fr;
     }
   }
+
+  /* === Centered Content Styles === */
+.centered-content {
+  text-align: center;
+}
+
+.order-summary {
+  text-align: center; /* Keep item details aligned left within the centered box */
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-total {
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 1.25rem;
+}
