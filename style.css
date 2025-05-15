@@ -528,3 +528,24 @@ body.transitioning .dark-mode * {
   opacity: 0.8;
 }
 
+#darkModeToggle {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.4s ease;
+}
+
+.dark-mode #darkModeToggle {
+  border-color: #777;
+  background: #374151;
+  color: white;
+}
+
+/* Optional: Rotate emoji icon slightly on hover */
+#darkModeToggle:hover {
+  transform: rotate(20deg);
+  transition: transform 0.3s ease;
+}

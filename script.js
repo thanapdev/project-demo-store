@@ -297,15 +297,25 @@ const isDarkMode = localStorage.getItem("darkMode") === "true";
 // Apply dark mode if needed
 if (isDarkMode) {
   document.body.classList.add("dark-mode");
-  if (darkModeToggle) darkModeToggle.textContent = "☀️ Light Mode";
+  darkModeToggle.textContent = "☀️ Light Mode";
 }
 
-// Toggle dark mode on button click
-if (darkModeToggle) {
-  darkModeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isInDarkMode = document.body.classList.contains("dark-mode");
-    localStorage.setItem("darkMode", isInDarkMode);
-    darkModeToggle.textContent = isInDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode";
-  });
-}
+// Animate toggle
+darkModeToggle?.addEventListener("click", () => {
+  const body = document.body;
+
+  // Optional: Add class to trigger animation
+  body.classList.add("transitioning");
+
+  // Toggle dark mode class
+  body.classList.toggle("dark-mode");
+
+  const isInDarkMode = body.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isInDarkMode);
+  darkModeToggle.textContent = isInDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode";
+
+  // Remove animation class after delay
+  setTimeout(() => {
+    body.classList.remove("transitioning");
+  }, 300);
+});
