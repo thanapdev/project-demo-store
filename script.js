@@ -287,3 +287,25 @@ if (!document.body.id || !["checkout-page", "summary-page"].includes(document.bo
     localStorage.removeItem("cart");
   });
 }
+
+// === Dark Mode Toggle Logic ===
+const darkModeToggle = document.getElementById("darkModeToggle");
+
+// Check if user previously set a preference
+const isDarkMode = localStorage.getItem("darkMode") === "true";
+
+// Apply dark mode if needed
+if (isDarkMode) {
+  document.body.classList.add("dark-mode");
+  if (darkModeToggle) darkModeToggle.textContent = "☀️ Light Mode";
+}
+
+// Toggle dark mode on button click
+if (darkModeToggle) {
+  darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const isInDarkMode = document.body.classList.contains("dark-mode");
+    localStorage.setItem("darkMode", isInDarkMode);
+    darkModeToggle.textContent = isInDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode";
+  });
+}

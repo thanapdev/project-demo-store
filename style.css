@@ -468,3 +468,63 @@
   margin-top: 1rem;
   font-size: 1.25rem;
 }
+
+/* === Dark Mode Styles === */
+.dark-mode {
+  background-color: #111827;
+  color: #d1d5db;
+}
+
+.dark-mode header,
+.dark-mode .categories,
+.dark-mode .checkout-container,
+.dark-mode footer,
+.dark-mode .cart-overlay {
+  background: #1f2937;
+  color: #d1d5db;
+}
+
+.dark-mode .product-card,
+.dark-mode .order-summary,
+.dark-mode .cart-item,
+.dark-mode .search-box input,
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+  background: #374151;
+  color: #d1d5db;
+  border-color: #4b5563;
+}
+
+.dark-mode .category-button.active,
+.dark-mode .category-button:hover,
+.dark-mode .add-to-cart-btn,
+.dark-mode .place-order-btn,
+.dark-mode .cart-icon {
+  background: #3b82f6;
+}
+
+.dark-mode .notification {
+  background: #3b82f6;
+}
+
+/* === Dark Mode Toggle Animations === */
+
+/* Enable transitions for all themed elements */
+body,
+.dark-mode,
+.dark-mode * {
+  transition: background-color 0.4s ease, color 0.4s ease, fill 0.4s ease, background 0.4s ease;
+}
+
+/* Optional: Fade effect for entire page during toggle */
+body.transitioning * {
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+body.transitioning .dark-mode * {
+  opacity: 0.8;
+}
+
