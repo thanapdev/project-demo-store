@@ -112,10 +112,7 @@ project-demo-store/
 
 ---
 
-## Screenshots
-
-> _Add screenshots here if needed (e.g., product grid, cart sidebar, dark mode)._
+© 2025 FreshFruit Market. All rights reserved.
 
 ---
 
-© 2025 FreshFruit Market. All rights reserved.
