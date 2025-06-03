@@ -112,7 +112,6 @@ project-demo-store/
 
 ---
 
-
 © 2025 FreshFruit Market. All rights reserved.
 
 ---
